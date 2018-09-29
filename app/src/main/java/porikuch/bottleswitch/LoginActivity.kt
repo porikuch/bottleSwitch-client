@@ -23,12 +23,17 @@ import android.widget.TextView
 
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
+import android.util.Log
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpPost
 
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
  * A login screen that offers login via email/password.
  */
+const val SERVER_ADDRESS = ""
+
 class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -48,7 +53,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             false
         })
 
-        email_sign_in_button.setOnClickListener { attemptLogin() }
+        user_name_sign_in_button.setOnClickListener { attemptLogin() }
     }
 
     private fun populateAutoComplete() {
@@ -67,7 +72,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             return true
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(email, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(userName, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok,
                             { requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS) })
         } else {
@@ -100,11 +105,11 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
 
         // Reset errors.
-        email.error = null
+        userName.error = null
         password.error = null
 
         // Store values at the time of the login attempt.
-        val emailStr = email.text.toString()
+        val emailStr = userName.text.toString()
         val passwordStr = password.text.toString()
 
         var cancel = false
@@ -119,12 +124,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(emailStr)) {
-            email.error = getString(R.string.error_field_required)
-            focusView = email
+            userName.error = getString(R.string.error_field_required)
+            focusView = userName
             cancel = true
         } else if (!isEmailValid(emailStr)) {
-            email.error = getString(R.string.error_invalid_email)
-            focusView = email
+            userName.error = getString(R.string.error_invalid_email)
+            focusView = userName
             cancel = true
         }
 
@@ -141,9 +146,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
     }
 
-    private fun isEmailValid(email: String): Boolean {
+    private fun isEmailValid(userName: String): Boolean {
         //TODO: Replace this with your own logic
-        return email.contains("@")
+        return userName.length > 4
     }
 
     private fun isPasswordValid(password: String): Boolean {
@@ -224,7 +229,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         val adapter = ArrayAdapter(this@LoginActivity,
                 android.R.layout.simple_dropdown_item_1line, emailAddressCollection)
 
-        email.setAdapter(adapter)
+        userName.setAdapter(adapter)
     }
 
     object ProfileQuery {
@@ -239,26 +244,31 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    inner class UserLoginTask internal constructor(private val mEmail: String, private val mPassword: String) : AsyncTask<Void, Void, Boolean>() {
+    inner class UserLoginTask internal constructor(private val mUserName: String, private val mPassword: String) : AsyncTask<Void, Void, Boolean>() {
 
         override fun doInBackground(vararg params: Void): Boolean? {
             // TODO: attempt authentication against a network service.
+            val (request, response, result) = "$SERVER_ADDRESS/logins".httpPost(listOf("name" to mUserName, "password" to mPassword)).responseJson()
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000)
-            } catch (e: InterruptedException) {
-                return false
-            }
+            var status = false
+            var userId :Int = 0
+            var userName :String? = null
+            var nickname :String? = null
 
-            return DUMMY_CREDENTIALS
-                    .map { it.split(":") }
-                    .firstOrNull { it[0] == mEmail }
-                    ?.let {
-                        // Account exists, return true if the password matches.
-                        it[1] == mPassword
-                    }
-                    ?: true
+            result.fold(success = { json ->
+                status = json.obj()["status"].toString().toBoolean()
+                if (status) {
+                    userId = Integer.parseInt(json.obj()["id"].toString())
+                    userName = json.obj()["name"].toString()
+                    nickname = json.obj()["nickname"].toString()
+
+                    Log.d("username", "Hello $userName!")
+                }
+            }, failure = { error ->
+                Log.e("error", error.toString())
+            })
+
+            return status
         }
 
         override fun onPostExecute(success: Boolean?) {
