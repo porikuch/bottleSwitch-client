@@ -23,6 +23,7 @@ import android.widget.TextView
 
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
+import android.content.Intent
 import android.util.Log
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpPost
@@ -32,7 +33,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 /**
  * A login screen that offers login via email/password.
  */
-const val SERVER_ADDRESS = ""
+const val SERVER_ADDRESS = "133.92.145.155:3000"
 
 class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     /**
@@ -54,6 +55,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         })
 
         user_name_sign_in_button.setOnClickListener { attemptLogin() }
+
     }
 
     private fun populateAutoComplete() {
@@ -109,7 +111,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         password.error = null
 
         // Store values at the time of the login attempt.
-        val emailStr = userName.text.toString()
+        val userNameStr = userName.text.toString()
         val passwordStr = password.text.toString()
 
         var cancel = false
@@ -123,11 +125,11 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(emailStr)) {
+        if (TextUtils.isEmpty(userNameStr)) {
             userName.error = getString(R.string.error_field_required)
             focusView = userName
             cancel = true
-        } else if (!isEmailValid(emailStr)) {
+        } else if (!isEmailValid(userNameStr)) {
             userName.error = getString(R.string.error_invalid_email)
             focusView = userName
             cancel = true
@@ -141,7 +143,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
-            mAuthTask = UserLoginTask(emailStr, passwordStr)
+            mAuthTask = UserLoginTask(userNameStr, passwordStr)
             mAuthTask!!.execute(null as Void?)
         }
     }
@@ -248,7 +250,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
         override fun doInBackground(vararg params: Void): Boolean? {
             // TODO: attempt authentication against a network service.
-            val (request, response, result) = "$SERVER_ADDRESS/logins".httpPost(listOf("name" to mUserName, "password" to mPassword)).responseJson()
+            val (request, response, result) = "http://$SERVER_ADDRESS/logins".httpPost(listOf("name" to mUserName, "password" to mPassword)).responseJson()
 
             var status = false
             var userId :Int = 0
@@ -276,6 +278,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             showProgress(false)
 
             if (success!!) {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
                 finish()
             } else {
                 password.error = getString(R.string.error_incorrect_password)
