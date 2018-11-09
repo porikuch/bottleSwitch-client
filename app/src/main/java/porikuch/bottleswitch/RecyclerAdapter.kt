@@ -9,7 +9,7 @@ import android.widget.TextView
 
 class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
-    private val titles = arrayOf("Chapter One",
+    private val titles = arrayOf("Let's be friends with me !",
             "Chapter Two", "Chapter Three", "Chapter Four",
             "Chapter Five", "Chapter Six", "Chapter Seven",
             "Chapter Eight")
