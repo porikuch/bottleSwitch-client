@@ -16,14 +16,17 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.navigation_home -> {
                 //message.setText(R.string.title_home)
+                title = "Created Bottles"
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
                 //message.setText(R.string.title_dashboard)
+                title = "Received Bottles"
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
                 //message.setText(R.string.title_notifications)
+                title = "Message Switch"
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         //super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
         //setSupportActionBar(toolbar)
+        title = "Created Bottles"
 
         layoutManager = LinearLayoutManager(this)
         recycler_view.layoutManager = layoutManager
