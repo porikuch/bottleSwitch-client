@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private var mAuthTask: UserLoginTask? = null
+    private var myId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -264,6 +265,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                     userName = json.obj()["name"].toString()
                     nickname = json.obj()["nickname"].toString()
 
+                    myId = userId
+
                     Log.d("username", "Hello $userName!")
                 }
             }, failure = { error ->
@@ -279,6 +282,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
             if (success!!) {
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                intent.putExtra("USER_ID", myId)
                 startActivity(intent)
                 finish()
             } else {
