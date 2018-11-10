@@ -43,12 +43,14 @@ class MainActivity : AppCompatActivity() {
         val myId: Int = intent.getIntExtra("USER_ID", 0)
         title = "Created Bottles"
 
+        val bottleManager: BottleManager = BottleManager(myId)
+        bottleManager.requestBottles()
+
         layoutManager = LinearLayoutManager(this)
         recycler_view.layoutManager = layoutManager
 
         adapter = RecyclerAdapter()
         recycler_view.adapter = adapter
-
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
