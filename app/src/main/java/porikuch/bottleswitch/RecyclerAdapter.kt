@@ -4,10 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(private val listener: ListListener) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     private val titles = arrayOf("Let's be friends with me !",
             "Chapter Two", "Chapter Three", "Chapter Four",
@@ -62,9 +63,16 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
         viewHolder.itemTitle.text = bottleList[i].title
         viewHolder.itemDetail.text = bottleList[i].nickname
         viewHolder.itemImage.setImageResource(images[i])
+        viewHolder.itemView.setOnClickListener {
+            listener.onClickRow(it, bottleList[i])
+        }
     }
 
     override fun getItemCount(): Int {
         return bottleList.size
+    }
+
+    interface ListListener {
+        fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch)
     }
 }

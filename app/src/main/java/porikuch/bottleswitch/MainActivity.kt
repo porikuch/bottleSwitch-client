@@ -1,11 +1,13 @@
 package porikuch.bottleswitch
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -54,13 +56,21 @@ class MainActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         recycler_view.layoutManager = layoutManager
 
-        createdBottlesAdapter = RecyclerAdapter()
+        createdBottlesAdapter = RecyclerAdapter(object : RecyclerAdapter.ListListener {
+            override fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch) {
+                this@MainActivity.onClickRow(tappedView, bottleSwitch)
+            }
+        })
         // set data
         for (i in 0 until bottleManager!!.getCreatedBottleListSize()) {
             (createdBottlesAdapter as RecyclerAdapter).bottleListAdd(bottleManager!!.getCreatedBottleListElemet(i))
         }
 
-        receivedBottlesAdapter = RecyclerAdapter()
+        receivedBottlesAdapter = RecyclerAdapter(object : RecyclerAdapter.ListListener {
+            override fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch) {
+                this@MainActivity.onClickRow(tappedView, bottleSwitch)
+            }
+        })
         for (i in 0 until bottleManager!!.getReceivedBottleListSize()) {
             (receivedBottlesAdapter as RecyclerAdapter).bottleListAdd(bottleManager!!.getReceivedBottleListElemet(i))
         }
@@ -68,5 +78,10 @@ class MainActivity : AppCompatActivity() {
         recycler_view.adapter = createdBottlesAdapter
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch) {
+        Snackbar.make(tappedView, "Replace with your own action tapped ${bottleSwitch.title}", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
     }
 }
