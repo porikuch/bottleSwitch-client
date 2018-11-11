@@ -18,4 +18,5 @@
     <string name="title_created_bottles">Created Bottles</string>
     <string name="title_received_bottles">Received Bottles</string>
     <string name="title_message_switch">Message Switch</string>
+    <string name="img_bottle_detail_background">Bottle_Label</string>
 </resources>

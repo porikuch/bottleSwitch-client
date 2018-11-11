@@ -1,13 +1,12 @@
 package porikuch.bottleswitch
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -81,7 +80,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch) {
-        Snackbar.make(tappedView, "Replace with your own action tapped ${bottleSwitch.title}", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        //Snackbar.make(tappedView, "Replace with your own action tapped ${bottleSwitch.title}", Snackbar.LENGTH_LONG)
+        //        .setAction("Action", null).show()
+        val intent = Intent(this@MainActivity, DetailActivity::class.java)
+        intent.putExtra("Bottle_ID", bottleSwitch.id)
+        startActivity(intent)
     }
 }
