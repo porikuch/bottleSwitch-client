@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private var createdBottlesAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
     private var receivedBottlesAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
     private var bottleManager: BottleManager? = null
+    private var myId: Int = 0
 
     private val mOnNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         //super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
         //setSupportActionBar(toolbar)
-        val myId: Int = intent.getIntExtra("USER_ID", 0)
+        myId = intent.getIntExtra("USER_ID", 0)
         title = "Created Bottles"
 
         bottleManager = BottleManager(myId)
@@ -76,14 +77,20 @@ class MainActivity : AppCompatActivity() {
 
         recycler_view.adapter = createdBottlesAdapter
 
+        fab.setOnClickListener { _ ->
+            val intent = Intent(this@MainActivity, EditDetailActivity::class.java)
+            intent.putExtra("USER_ID", myId)
+            startActivity(intent)
+        }
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch) {
-        //Snackbar.make(tappedView, "Replace with your own action tapped ${bottleSwitch.title}", Snackbar.LENGTH_LONG)
-        //        .setAction("Action", null).show()
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
         intent.putExtra("Bottle_ID", bottleSwitch.id)
+        intent.putExtra("CREATED_ID", bottleSwitch.created_user_id)
+        intent.putExtra("USER_ID", myId)
         startActivity(intent)
     }
 }
