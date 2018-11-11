@@ -25,11 +25,22 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
             R.drawable.bottle, R.drawable.bottle,
             R.drawable.bottle)
 
+    private var bottleList: MutableList<BottleSwitch> = mutableListOf()
+
+    fun bottleListAdd(bottleSwitch: BottleSwitch) {
+        this.bottleList.add(bottleSwitch)
+    }
+
+    fun bottleClear() {
+        this.bottleList = arrayListOf()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var itemImage: ImageView
         var itemTitle: TextView
         var itemDetail: TextView
+        var bottleId: Int = 0
 
         init {
             itemImage = itemView.findViewById(R.id.item_image)
@@ -45,12 +56,15 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.itemTitle.text = titles[i]
-        viewHolder.itemDetail.text = details[i]
+        //viewHolder.itemTitle.text = titles[i]
+        //viewHolder.itemDetail.text = details[i]
+        //viewHolder.itemImage.setImageResource(images[i])
+        viewHolder.itemTitle.text = bottleList[i].title
+        viewHolder.itemDetail.text = bottleList[i].nickname
         viewHolder.itemImage.setImageResource(images[i])
     }
 
     override fun getItemCount(): Int {
-        return titles.size
+        return bottleList.size
     }
 }

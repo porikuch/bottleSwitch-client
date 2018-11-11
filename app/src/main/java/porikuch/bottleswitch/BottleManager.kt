@@ -39,9 +39,23 @@ class BottleManager(private val myId: Int) {
         }
     }
 
-    public fun createBottle(id: Int, title: String, createdUserId: Int, nickname: String): BottleSwitch {
+    fun createBottle(id: Int, title: String, createdUserId: Int, nickname: String): BottleSwitch {
         return BottleSwitch(id, title, createdUserId, nickname)
     }
 
-    //public fun create
+    fun getCreatedBottleListElemet(index: Int): BottleSwitch {
+        return this.createdBottleList[index]
+    }
+
+    fun getCreatedBottleListSize(): Int {
+        return this.createdBottleList.size
+    }
+
+    fun getReceivedBottleListElemet(index: Int): BottleSwitch {
+        return this.receivedBottleList[index]
+    }
+
+    fun getReceivedBottleListSize(): Int {
+        return this.receivedBottleList.size
+    }
 }
