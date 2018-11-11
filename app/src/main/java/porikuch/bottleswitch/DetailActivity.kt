@@ -2,6 +2,7 @@ package porikuch.bottleswitch
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
@@ -15,5 +16,17 @@ class DetailActivity : AppCompatActivity() {
         val body: String = "This is body.\nHello World."
         titleTextView.text = title
         bodyTextView.text = body
+
+        val myId: Int = intent.getIntExtra("USER_ID", 0)
+        val createdUserId: Int = intent.getIntExtra("CREATED_ID", 0)
+        if (myId != 0 && myId == createdUserId) {
+            floatButton.text = "Float Bottle"
+            getSwitchButton.visibility = View.GONE
+        } else {
+            floatButton.text = "Float Again"
+            getSwitchButton.setOnClickListener { _ ->
+
+            }
+        }
     }
 }
