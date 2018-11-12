@@ -8,16 +8,16 @@ import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 
-class RecyclerAdapter(private val image: Int, private val listener: ListListener) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class MessageSwitchRecyclerAdapter(private val image: Int, private val listener: ListListener) : RecyclerView.Adapter<MessageSwitchRecyclerAdapter.ViewHolder>() {
 
-    private var bottleList: MutableList<BottleSwitch> = mutableListOf()
+    private var messageSwitchList: MutableList<MessageSwitch> = mutableListOf()
 
-    fun bottleListAdd(bottleSwitch: BottleSwitch) {
-        this.bottleList.add(bottleSwitch)
+    fun messageSwitchListAdd(messageSwitch: MessageSwitch) {
+        this.messageSwitchList.add(messageSwitch)
     }
 
-    fun bottleClear() {
-        this.bottleList = arrayListOf()
+    fun messageSwitchClear() {
+        this.messageSwitchList = arrayListOf()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,19 +43,19 @@ class RecyclerAdapter(private val image: Int, private val listener: ListListener
         //viewHolder.itemTitle.text = titles[i]
         //viewHolder.itemDetail.text = details[i]
         //viewHolder.itemImage.setImageResource(images[i])
-        viewHolder.itemTitle.text = bottleList[i].title
-        viewHolder.itemDetail.text = bottleList[i].nickname
+        viewHolder.itemTitle.text = messageSwitchList[i].nickname
+        viewHolder.itemDetail.text = ""
         viewHolder.itemImage.setImageResource(image)
         viewHolder.itemView.setOnClickListener {
-            listener.onClickRow(it, bottleList[i])
+            listener.onClickRow(it, messageSwitchList[i])
         }
     }
 
     override fun getItemCount(): Int {
-        return bottleList.size
+        return messageSwitchList.size
     }
 
     interface ListListener {
-        fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch)
+        fun onClickRow(tappedView: View, messageSwitch: MessageSwitch)
     }
 }
