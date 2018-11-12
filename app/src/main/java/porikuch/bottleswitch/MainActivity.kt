@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.message_switch_card_layout.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -87,6 +88,12 @@ class MainActivity : AppCompatActivity() {
             override fun onClickRow(tappedView: View, messageSwitch: MessageSwitch) {
                 this@MainActivity.onClickRow(tappedView, messageSwitch)
             }
+            override fun onClickSendMessageButton(tappedView: View, messageSwitch: MessageSwitch) {
+                this@MainActivity.onClickSendMessageButton(tappedView, messageSwitch)
+            }
+            override fun onClickCreateBottleButton(tappedView: View, messageSwitch: MessageSwitch) {
+                this@MainActivity.onClickCreateBottleButton(tappedView, messageSwitch)
+            }
         })
 
         (messageSwitchAdapter as MessageSwitchRecyclerAdapter).messageSwitchListAdd(
@@ -113,9 +120,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickRow(tappedView: View, messageSwitch: MessageSwitch) {
-        val intent = Intent(this@MainActivity, DetailActivity::class.java)
+        //val intent = Intent(this@MainActivity, DetailActivity::class.java)
+        //intent.putExtra("FRIEND_ID", messageSwitch.id)
+        //intent.putExtra("FRIEND_NICKNAME", messageSwitch.nickname)
+        //startActivity(intent)
+    }
+
+    fun onClickSendMessageButton(tappedView: View, messageSwitch: MessageSwitch) {
+        val intent = Intent(this@MainActivity, TalkActivity::class.java)
         intent.putExtra("FRIEND_ID", messageSwitch.id)
         intent.putExtra("FRIEND_NICKNAME", messageSwitch.nickname)
+        startActivity(intent)
+    }
+    fun onClickCreateBottleButton(tappedView: View, messageSwitch: MessageSwitch){
+        val intent = Intent(this@MainActivity, EditDetailActivity::class.java)
+        //intent.putExtra("BOTTLE_ID", messageSwitch.id)
+        intent.putExtra("CREATED_ID", messageSwitch.nickname)
+        intent.putExtra("USER_ID", myId)
         startActivity(intent)
     }
 

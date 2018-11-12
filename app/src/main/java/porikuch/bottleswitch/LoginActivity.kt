@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 /**
  * A login screen that offers login via email/password.
  */
-const val SERVER_ADDRESS = "133.92.145.135:3000"
+const val SERVER_ADDRESS = "10.0.2.2:3000"
 
 class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     /**
