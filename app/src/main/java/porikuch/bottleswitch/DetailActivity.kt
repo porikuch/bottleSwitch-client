@@ -18,7 +18,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        val bottleId: Int = intent.getIntExtra("Bottle_ID", 0)
+        val bottleId: Int = intent.getIntExtra("BOTTLE_ID", 0)
         val myId: Int = intent.getIntExtra("USER_ID", 0)
         val createdUserId: Int = intent.getIntExtra("CREATED_ID", 0)
 
@@ -34,7 +34,11 @@ class DetailActivity : AppCompatActivity() {
         } else {
             floatButton.text = "Float Again"
             getSwitchButton.setOnClickListener { _ ->
-                // TODO intent
+                val intent = Intent(applicationContext, GotSwitchActivity::class.java)
+                intent.putExtra("BOTTLE_ID", bottleId)
+                intent.putExtra("CREATED_ID", createdUserId)
+                startActivity(intent)
+                finish()
             }
         }
 

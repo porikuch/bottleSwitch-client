@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickRow(tappedView: View, bottleSwitch: BottleSwitch) {
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
-        intent.putExtra("Bottle_ID", bottleSwitch.id)
+        intent.putExtra("BOTTLE_ID", bottleSwitch.id)
         intent.putExtra("CREATED_ID", bottleSwitch.created_user_id)
         intent.putExtra("USER_ID", myId)
         startActivity(intent)
