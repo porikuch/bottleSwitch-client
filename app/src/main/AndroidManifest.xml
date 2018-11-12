@@ -32,6 +32,8 @@
         </activity>
         <activity android:name=".DetailActivity">
         </activity>
+        <activity android:name=".gotSwitchActivity">
+        </activity>
     </application>
 
 </manifest>
