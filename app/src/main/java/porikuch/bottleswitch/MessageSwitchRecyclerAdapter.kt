@@ -24,18 +24,18 @@ class MessageSwitchRecyclerAdapter(private val image: Int, private val listener:
 
         var itemImage: ImageView
         var itemTitle: TextView
-        var itemDetail: TextView
+        //var itemDetail: TextView
 
         init {
             itemImage = itemView.findViewById(R.id.item_image)
             itemTitle = itemView.findViewById(R.id.item_title)
-            itemDetail = itemView.findViewById(R.id.item_detail)
+            //itemDetail = itemView.findViewById(R.id.item_detail)
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.card_layout, viewGroup, false)
+                .inflate(R.layout.message_switch_card_layout, viewGroup, false)
         return ViewHolder(v)
     }
 
@@ -44,7 +44,7 @@ class MessageSwitchRecyclerAdapter(private val image: Int, private val listener:
         //viewHolder.itemDetail.text = details[i]
         //viewHolder.itemImage.setImageResource(images[i])
         viewHolder.itemTitle.text = messageSwitchList[i].nickname
-        viewHolder.itemDetail.text = ""
+        //viewHolder.itemDetail.text = ""
         viewHolder.itemImage.setImageResource(image)
         viewHolder.itemView.setOnClickListener {
             listener.onClickRow(it, messageSwitchList[i])
